@@ -2,46 +2,9 @@ export default [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "manager",
-                "type": "address"
-            },
-            {
-                "internalType": "address payable",
-                "name": "feeTo",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "feeRate",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "int256",
-                "name": "errorCode",
-                "type": "int256"
-            }
-        ],
-        "name": "ActorError",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "ActorNotFound",
-        "type": "error"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             }
         ],
         "name": "buyMiner",
@@ -52,9 +15,9 @@ export default [
     {
         "inputs": [
             {
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             }
         ],
         "name": "cancelList",
@@ -91,9 +54,9 @@ export default [
     {
         "inputs": [
             {
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             },
             {
                 "internalType": "uint256",
@@ -109,9 +72,9 @@ export default [
     {
         "inputs": [
             {
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             },
             {
                 "internalType": "bytes",
@@ -119,90 +82,51 @@ export default [
                 "type": "bytes"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint64",
                 "name": "timestamp",
-                "type": "uint256"
+                "type": "uint64"
             }
         ],
         "name": "confirmTransferMinerIntoSPex",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "FailToCallActor",
-        "type": "error"
-    },
-    {
-        "inputs": [
+        "outputs": [
             {
-                "internalType": "CommonTypes.FilActorId",
-                "name": "actorId",
-                "type": "uint64"
-            }
-        ],
-        "name": "InvalidActorID",
-        "type": "error"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint64",
+                "internalType": "bytes",
                 "name": "",
-                "type": "uint64"
+                "type": "bytes"
             }
         ],
-        "name": "InvalidCodec",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "InvalidResponseLength",
-        "type": "error"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "CommonTypes.FilActorId",
-                "name": "minerId",
-                "type": "uint64"
-            },
-            {
-                "internalType": "uint256",
-                "name": "price",
-                "type": "uint256"
-            }
-        ],
-        "name": "listMiner",
-        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "balance",
-                "type": "uint256"
+                "internalType": "address",
+                "name": "manager",
+                "type": "address"
+            },
+            {
+                "internalType": "address payable",
+                "name": "feeTo",
+                "type": "address"
             },
             {
                 "internalType": "uint256",
-                "name": "value",
+                "name": "feeRate",
                 "type": "uint256"
             }
         ],
-        "name": "NotEnoughBalance",
-        "type": "error"
+        "stateMutability": "nonpayable",
+        "type": "constructor"
     },
     {
         "anonymous": false,
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             },
             {
                 "indexed": false,
@@ -231,9 +155,9 @@ export default [
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             }
         ],
         "name": "EventCancelList",
@@ -244,9 +168,9 @@ export default [
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             },
             {
                 "indexed": false,
@@ -263,9 +187,9 @@ export default [
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             },
             {
                 "indexed": false,
@@ -288,9 +212,9 @@ export default [
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             },
             {
                 "indexed": false,
@@ -307,22 +231,15 @@ export default [
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             },
             {
-                "components": [
-                    {
-                        "internalType": "bytes",
-                        "name": "data",
-                        "type": "bytes"
-                    }
-                ],
                 "indexed": false,
-                "internalType": "struct CommonTypes.FilAddress",
+                "internalType": "bytes",
                 "name": "newOwner",
-                "type": "tuple"
+                "type": "bytes"
             }
         ],
         "name": "EventMinerOutContract",
@@ -331,16 +248,27 @@ export default [
     {
         "inputs": [
             {
-                "components": [
-                    {
-                        "internalType": "bytes",
-                        "name": "data",
-                        "type": "bytes"
-                    }
-                ],
-                "internalType": "struct CommonTypes.FilAddress",
+                "internalType": "bytes",
+                "name": "minerId",
+                "type": "bytes"
+            },
+            {
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "listMiner",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes",
                 "name": "contractFilecoinAddress",
-                "type": "tuple"
+                "type": "bytes"
             }
         ],
         "name": "setContractFilecoinAddress",
@@ -351,21 +279,14 @@ export default [
     {
         "inputs": [
             {
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             },
             {
-                "components": [
-                    {
-                        "internalType": "bytes",
-                        "name": "data",
-                        "type": "bytes"
-                    }
-                ],
-                "internalType": "struct CommonTypes.FilAddress",
+                "internalType": "bytes",
                 "name": "newOwner",
-                "type": "tuple"
+                "type": "bytes"
             }
         ],
         "name": "transferOwnerOut",
@@ -396,16 +317,9 @@ export default [
         "name": "getContractFilecoinAddress",
         "outputs": [
             {
-                "components": [
-                    {
-                        "internalType": "bytes",
-                        "name": "data",
-                        "type": "bytes"
-                    }
-                ],
-                "internalType": "struct CommonTypes.FilAddress",
+                "internalType": "bytes",
                 "name": "",
-                "type": "tuple"
+                "type": "bytes"
             }
         ],
         "stateMutability": "view",
@@ -440,9 +354,9 @@ export default [
     {
         "inputs": [
             {
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             }
         ],
         "name": "getListMinerById",
@@ -450,9 +364,9 @@ export default [
             {
                 "components": [
                     {
-                        "internalType": "CommonTypes.FilActorId",
+                        "internalType": "bytes",
                         "name": "id",
-                        "type": "uint64"
+                        "type": "bytes"
                     },
                     {
                         "internalType": "address",
@@ -479,24 +393,11 @@ export default [
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "getMinerIdList",
-        "outputs": [
-            {
-                "internalType": "CommonTypes.FilActorId[]",
-                "name": "",
-                "type": "uint64[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
         "inputs": [
             {
-                "internalType": "CommonTypes.FilActorId",
+                "internalType": "bytes",
                 "name": "minerId",
-                "type": "uint64"
+                "type": "bytes"
             }
         ],
         "name": "getOwnerById",

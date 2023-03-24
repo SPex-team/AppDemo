@@ -72,7 +72,7 @@ export const filter_out_empty_str = (data) => {
 
 var master = axios.create({
   baseURL: config.base_url,
-  timeout: 20000,
+  timeout: 80000,
   paramsSerializer: params_serializer,                // // 参数序列化 1、剔除空值 2、将数组转换为url模式 3.将Date对象转换成iso格式
   withCredentials: true                               // 跨域也跟上cookie
 })

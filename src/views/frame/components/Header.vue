@@ -30,7 +30,7 @@
           <el-dropdown-item>HyperSpace</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-button v-if="$store.state.userAddress==null" @click="onClickConnectWallet">Connect Wallet</el-button>
+      <el-button v-if="$store.state.userAddress==null" @click="$df_add_dialog('FrameWalletList')">Connect Wallet</el-button>
       <el-button style="width: 124px" v-else>{{
           $store.state.userAddress.slice(0, 6)
         }}...{{ $store.state.userAddress.slice(37, 41) }}

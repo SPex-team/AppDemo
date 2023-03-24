@@ -5,36 +5,53 @@
       width="60%">
     <div style="height: 400px">
       <el-steps :active="stepActive" finish-status="success">
+        <el-step title="Input Miner Address"></el-step>
         <el-step title="Transfer Miner"></el-step>
         <el-step title="Confirm"></el-step>
         <el-step title="Set Price"></el-step>
+        <el-step title="Completed"></el-step>
       </el-steps>
 
       <el-form :model="formData" label-width="100px" v-show="stepActive==1"
                style="padding-right: 70px; margin-top: 50px">
-        <el-form-item>
-          <span>Run command to transfer miner: </span>
-          <br />
-          <span>./lotus-miner actor set-owner --really-do-it=true {{
-              config.contractT4Address
-            }} &#60Owner address&#62</span>
+        <el-form-item
+            label="Minder Address:"
+            prop="miner_id"
+        >
+          <el-input v-model="formData.miner_id" autocomplete="off" placeholder="t0xxxx"></el-input>
         </el-form-item>
         <el-form-item style="margin-top: 100px">
-          <el-button type="primary" style="margin-top: 12px; width: 100%" @click="next">I have executed</el-button>
+          <el-button type="primary" style="margin-top: 12px; width: 100%" @click="nextToTransfer">Next</el-button>
         </el-form-item>
       </el-form>
 
       <el-form :model="formData" label-width="100px" v-show="stepActive==2"
                style="padding-right: 70px; margin-top: 50px">
-        <el-form-item
-            label="Miner Id:"
-            prop="miner_id"
-            required
-        >
-          <el-input v-model="formData.miner_id" autocomplete="off"></el-input>
-        </el-form-item>
         <el-form-item>
-          <p>lotus wallet sign &#60Owner address&#62 {{ stringToHex(formData.miner_id) }}</p>
+          <span>Sign {{ buildMessage.msg_cid_hex }} with owner address to transfer owner to SPex contract</span>
+        </el-form-item>
+        <el-form-item
+            label="sign:"
+            prop="sign"
+        >
+          <el-input v-model="formData.sign" autocomplete="off" placeholder="t0xxxx"></el-input>
+        </el-form-item>
+        <el-form-item style="margin-top: 100px">
+          <el-button type="primary" style="margin-top: 12px; width: 100%" @click="onTransfer">Next</el-button>
+        </el-form-item>
+      </el-form>
+
+      <el-form :model="formData" label-width="100px" v-show="stepActive==3"
+               style="padding-right: 70px; margin-top: 50px">
+<!--        <el-form-item-->
+<!--            label="Miner Id:"-->
+<!--            prop="miner_id"-->
+<!--            required-->
+<!--        >-->
+<!--          <el-input v-model="formData.miner_id" autocomplete="off"></el-input>-->
+<!--        </el-form-item>-->
+        <el-form-item>
+          <span>Sign {{ confirmSignContent }} with owner address to cofirm transfer owner to SPex contract and bind login address</span>
         </el-form-item>
         <el-form-item
             label="Sign:"
@@ -50,7 +67,7 @@
         </el-form-item>
       </el-form>
 
-      <el-form v-model="formData.price" :model="formData" label-width="100px" v-show="stepActive==3"
+      <el-form v-model="formData.price" :model="formData" label-width="100px" v-show="stepActive==4"
                style="padding-right: 70px; margin-top: 100px">
         <el-form-item
             label="Price:"
@@ -88,6 +105,8 @@ export default {
         price: 0,
         list_time: Date.now()
       },
+      confirmSignContent: "",
+      buildMessage: {},
       confirmLoading: false,
       listLoading: false,
       config: config,
@@ -110,6 +129,9 @@ export default {
       console.log("result: ", result)
     },
     async onConfirm() {
+      // const packed = abi.encode(["string", "uint64", "uint64", "address", "uint256", "uint256"], ["validateOwnerSign", 33014, 20412, "0x2EBD277C069e7CCAcdDe2cEAD2d9aab549561C2f", 3141, 1678776404])
+
+
       this.confirmLoading = true
       await this.confirmChangeOwnerToSpex(this.formData.miner_id, this.formData.sign)
       this.formData.owner = store.state.userAddress
@@ -141,14 +163,55 @@ export default {
         this.on_close(false)
       })
     },
-    stringToHex(content){
+    updateBuildMessage() {
+      var data = {
+        miner_id: parseInt(this.formData.miner_id.slice(2))
+      }
+      this.$backend.post("spex/messages/build", data).then(response => {
+        this.buildMessage = response.data
+      })
+    },
+    onTransfer() {
+      var data = {
+        message: this.buildMessage.msg_hex,
+        sign: this.formData.sign,
+        cid: this.buildMessage.msg_cid_str,
+        wait: true
+      }
+      this.$backend.post("spex/messages/push", data).then(response => {
+        this.buildMessage = response.data
+      }).then(response => {
+        this.next()
+      })
+    },
+    stringToHex(content) {
       var hex, i;
       var result = "";
-      for (i=0; i<content.length; i++) {
+      for (i = 0; i < content.length; i++) {
         hex = content.charCodeAt(i).toString(16);
-        result += ("000"+hex).slice(-4);
+        result += ("000" + hex).slice(-4);
       }
       return result
+    },
+    nextToTransfer() {
+      this.updateBuildMessage()
+      this.next()
+    }
+  },
+  watch: {
+    // stepActive: function (value) {
+    //   console.log("value: ", value)
+    //   if (value == 2) {
+    //     this.updateBuildMessage()
+    //   }
+    //   // else if (value == 2) {
+    //   //   this.updateBuildMessage()
+    //   // }
+    // }
+    stepActive: function(newValue, oldValue) {
+      if (newValue == 3) {
+        this.confirmSignContent = abi.encode(["string", "uint64", "uint64", "address", "uint256", "uint256"], ["validateOwnerSign", parseInt(this.formData.miner_id.slice(2)), this.buildMessage.miner_info["Owner"].slice(2), this.$store.state.userAddress, 3141, Math.floor(Date.now() / 1000)])
+      }
     }
   }
 }
