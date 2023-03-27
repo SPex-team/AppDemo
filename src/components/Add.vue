@@ -51,7 +51,7 @@
 <!--          <el-input v-model="formData.miner_id" autocomplete="off"></el-input>-->
 <!--        </el-form-item>-->
         <el-form-item>
-          <span>Sign {{ confirmSignContent }} with owner address to cofirm transfer owner to SPex contract and bind login address</span>
+          <span>Sign {{ confirmSignContent }} with owner address to confirm transfer owner to SPex contract and bind login address</span>
         </el-form-item>
         <el-form-item
             label="Sign:"
@@ -167,7 +167,7 @@ export default {
       var data = {
         miner_id: parseInt(this.formData.miner_id.slice(2))
       }
-      this.$backend.post("spex/messages/build", data).then(response => {
+      this.$backend.post("spex/messages/build-change-owner-in", data).then(response => {
         this.buildMessage = response.data
       })
     },
